@@ -35,7 +35,9 @@ ui <- fluidPage(
                         c("Cylinders"="cyl",
                           "Hp" = "hp",
                           "Gears" = "gear"),
-                        selected = "hp")
+                        selected = "hp"),
+            radioButtons("plotType","Plot type",
+                         c("Scatter"="p", "Line"="l"))
 
         ),
         
@@ -80,7 +82,7 @@ server <- function(input, output) {
     })
     
     output$barPlot <- renderPlot({
-        plot(cars$mpg, cars[[formulaTexts()]], col = cars$am)
+        plot(cars$mpg, cars[[formulaTexts()]], col = cars$am, type=input$plotType)
     })    
     
     
