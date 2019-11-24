@@ -13,22 +13,41 @@ library(shiny)
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Cars Dashboard"),
 
-    # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(
-            selectInput("variable","Variable:",
+            selectInput("variable_one","Variable:",
                         c("Cylinders"="cyl",
                           "Transmission" = "am",
                           "Gears" = "gear"))
         ),
+     
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot")
+           plotOutput("distPlot"),
         )
-    )
+    ),
+    sidebarLayout(
+        sidebarPanel(
+            selectInput("variable_two","Variable:",
+                        c("Cylinders"="cyl",
+                          "Hp" = "hp",
+                          "Gears" = "gear"),
+                        selected = "hp")
+
+        ),
+        
+        
+        # Show a plot of the generated distribution
+        mainPanel(
+            plotOutput("barPlot")
+        )
+    ),
+   
+    
+    
 )
 
 # Define server logic required to draw a histogram
@@ -37,12 +56,20 @@ server <- function(input, output) {
     cars <- mtcars
     
     formulaText <- reactive({
-        paste("mpg ~", input$variable)
+        paste("mpg ~", input$variable_one)
     })
     
     output$caption <- renderText({
         formulaText()
     })
+    
+    formulaTexts <- reactive({
+        paste(input$variable_two)
+    })
+    output$try <- renderText({
+        formulaTexts()
+    })
+
 
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
@@ -51,6 +78,14 @@ server <- function(input, output) {
                 data = cars,
                 col = "#75AADB", pch = 19)
     })
+    
+    output$barPlot <- renderPlot({
+        plot(cars$mpg, cars[[formulaTexts()]], col = cars$am)
+    })    
+    
+    
+    
+    
 }
 
 # Run the application 
