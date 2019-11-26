@@ -8,13 +8,14 @@
 #
 
 library(shiny)
+library("ggplot2")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+    
     # Application title
     titlePanel("Cars Dashboard"),
-
+    
     sidebarLayout(
         sidebarPanel(
             selectInput("variable_one","Variable:",
@@ -22,11 +23,11 @@ ui <- fluidPage(
                           "Transmission" = "am",
                           "Gears" = "gear"))
         ),
-     
-
+        
+        
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("distPlot"),
+            plotOutput("distPlot"),
         )
     ),
     sidebarLayout(
@@ -38,7 +39,7 @@ ui <- fluidPage(
                         selected = "hp"),
             radioButtons("plotType","Plot type",
                          c("Scatter"="p", "Line"="l"))
-
+            
         ),
         
         
@@ -47,7 +48,35 @@ ui <- fluidPage(
             plotOutput("barPlot")
         )
     ),
-   
+    
+    
+    sidebarLayout(
+        sidebarPanel(
+            selectInput("variable_three","Variable:",
+                        c("Transmission" = "am",
+                          "Gears" = "gear")),
+            selectInput("variable_four","Variable:",
+                        c("Cylinders"="cyl",
+                          "Weigth"="wt",
+                          "Fuel efficiency"="mpg"),
+                        selected = "wt"),
+            selectInput("variable_five","Variable:",
+                        c("Cylinders"="cyl",
+                          "Weigth"="wt",
+                          "Fuel efficiency"="mpg"
+                        ),
+                        selected = "mpg"),
+            
+        ),
+        
+        
+        # Show a plot of the generated distribution
+        mainPanel(
+            plotOutput("dynamicPlot"),
+        )
+    ),
+    
+    
     
     
 )
@@ -71,8 +100,29 @@ server <- function(input, output) {
     output$try <- renderText({
         formulaTexts()
     })
-
-
+    
+    formulaTextdynamic <- reactive({
+        paste(input$variable_three)
+    })
+    output$caption_one <- renderText({
+        formulaText()
+    })
+    
+    formulaTextdynamic_two <- reactive({
+        paste(input$variable_four)
+    })
+    output$caption_two <- renderText({
+        formulaText()
+    })
+    
+    formulaTextdynamic_three <- reactive({
+        paste(input$variable_five)
+    })
+    output$caption_three <- renderText({
+        formulaText()
+    })
+    
+    
     output$distPlot <- renderPlot({
         # generate bins based on input$bins from ui.R
         
@@ -83,7 +133,13 @@ server <- function(input, output) {
     
     output$barPlot <- renderPlot({
         plot(cars$mpg, cars[[formulaTexts()]], col = cars$am, type=input$plotType)
-    })    
+    })
+    
+    output$dynamicPlot <-renderPlot({
+        g <-  ggplot(cars, aes(cars[[formulaTextdynamic()]], cars[[formulaTextdynamic_two()]]/cars[[formulaTextdynamic_three()]])) 
+        g + geom_point(size=4)
+    })
+    
     
     
     
