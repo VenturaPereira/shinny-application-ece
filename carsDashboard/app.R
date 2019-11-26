@@ -18,6 +18,12 @@ ui <- fluidPage(
     
     sidebarLayout(
         sidebarPanel(
+            helpText("What we are doing here is a boxplotting representing the relation between two variables.
+                     Here our reference variable will always be mpg, and we can compare it to Cylinders, Hp and Gears. 
+                     Each part of the boxplot represent a quartile. The black bar in the middle represent the average.
+                     For instance if you want to see a boxplot showing relation between mpg and Gears, you juste have
+                     to select Gears in the box."),
+            
             selectInput("variable_one","Variable:",
                         c("Cylinders"="cyl",
                           "Transmission" = "am",
@@ -32,11 +38,15 @@ ui <- fluidPage(
     ),
     sidebarLayout(
         sidebarPanel(
+            helpText("Here we are plotting the relation between two columns : the reference column which here is mpg
+                     and the chosen column (Cylinders, Hp, Gears )."),
+            
             selectInput("variable_two","Variable:",
                         c("Cylinders"="cyl",
                           "Hp" = "hp",
                           "Gears" = "gear"),
                         selected = "hp"),
+            
             radioButtons("plotType","Plot type",
                          c("Scatter"="p", "Line"="l"))
             
@@ -52,6 +62,10 @@ ui <- fluidPage(
     
     sidebarLayout(
         sidebarPanel(
+            helpText("What we display here is a ggplot graphic showing the relation between two columns given an other column.
+                     For instance,  if You choose Transmissions, Fuel efficiency and Gears it will create a ggplot for X being 
+                     Transmissions and Y being Fuel eff./gears"),
+            
             selectInput("variable_three","Variable:",
                         c("Transmission" = "am",
                           "Gears" = "gear")),
