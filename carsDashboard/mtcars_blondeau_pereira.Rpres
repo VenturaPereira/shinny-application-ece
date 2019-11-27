@@ -1,0 +1,41 @@
+Mtcars dashboard presentation
+========================================================
+author: Benjamin Blondeau and Ventura Pereira
+date: 27/11/19
+autosize: true
+
+Dataset Summary
+========================================================
+
+```{r, echo=FALSE}
+summary(mtcars)
+```
+
+Boxplotting of MPG/AM relation
+========================================================
+![alt text](presentation_plot.png "hover text")
+```{r,  echo=FALSE}
+ boxplot(mpg~am,
+                data = mtcars,
+                col = "#75AADB", pch = 19)
+```
+
+- Here what we can see is a boxplot of the relation between Fuel effeciency (mpg) and Transmission (am).
+- We can see that fuel efficiency is better for automatic (0) cars because mpg is lower than for manual cars (1).
+
+Scatter plot showing relation between Cylinders and Transmission
+========================================================
+![alt text](scatter_plot.png "hover text")
+```{r, echo=FALSE}
+plot(mtcars$mpg, mtcars$cyl, col = mtcars$am, type = "p")
+```
+
+Scatter plot showing relation between two columns given one other
+========================================================
+![alt text](scatter_plottwo.png "hover text")
+```{r, echo=FALSE}
+library("ggplot2")
+g <-  ggplot(mtcars, aes(mtcars$gear, mtcars$mpg/mtcars$wt)) 
+g <- g + geom_point(size=4)
+plot(g)
+```

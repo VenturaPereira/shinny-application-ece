@@ -1,0 +1,12 @@
+name: carsDashboard
+title: carsDashboard
+username:
+account: benjaminbld
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1530663
+bundleId: 2620454
+url: https://benjaminbld.shinyapps.io/carsDashboard/
+when: 1574809698.5565
+asMultiple: FALSE
+asStatic: FALSE
