@@ -1,6 +1,6 @@
 Mtcars dashboard presentation
 ========================================================
-author: Benjamin Blondeau and Ventura Pereira
+author: Benjamin Blondeau, Ventura Pereira and Ruben Poretz
 date: 27/11/19
 autosize: true
 
